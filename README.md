@@ -1,0 +1,263 @@
+# Fortinet
+Tutoriais relacionado a fortinet
+execute factoryreset
+admin sem senha
+
+Port1(lan) ambiente virtual sempre configurar na port1
+
+Para configurar a lan
+Network>interface>selecione a interface>edit>Name:port1, Alias:lan>Role:lan(caso for usar para isso)>addressing mode:manual:IP:192.168.101.254/24>administrative access(https,http,ssh,ping,FMG-Access)> DHCP server:192.168.101.10- 192.168.101.50 (para o firewall isso pode ser custoso em redes grandes)
+netmask: 255.255.255.0 Gateway:same as interface IP DNS server: Specify:8.8.8.8 de um AD 
+Ok
+
+
+
+Port2(Wan vivo)
+Network,interfaces,port2,aliás(VIVO)
+Role:WAN, Address, address mode manual:101.101.101.6/30 ok
+
+
+
+Port3(WAN claro)Name:port3, Alias:claro, Role:WAN, Estimated Bandwidth: coloque o upstream/downstream do link. Address, Manual:100.100.100.6/30, Administrativo access:ping ok
+ 
+
+
+Port4(gerência) config sys int
+edit port4
+set ip 192.168.250.50/24
+end
+
+Para acessar, é necessário habilitar o acesso web http/https
+config sys int
+edit port4
+set allowaccess https http ping ssh
+end
+
+Digite o IP no navegador,em alguns casos a porta também para abrir a Gui da forti IOS
+
+Configurar rotas
+Static Routes, Destination:0.0.0.0/.0.0.0.0
+Gateway:100.100.100.5
+Interface: CLARO(port3)
+Administrative Distante:10
+
+Rota para SD-WAN 
+Static Routes, Destination:0.0.0.0/0.0.0.0
+Gateway Address:
+Interface:+, virtual-wan-link 
+Close,ok
+
+SD-WAN(neste cenário para sair internet, pela interface virtual) virtual-wan-link,create new, SD-WAN Member, interface: CLARO(port3)
+SD-WAN Zone: virtual-wan-link
+Gateway:100.100.100.5
+Ok
+
+Regras para liberar acesso (Net)
+Policy&objectos, Firewall Policy,Name:Lan internet incoming int:lanport1, outgoing int:virtual-wan-link
+Source:address,+create,Name:faixa da lan,...IP/Netmask:192.168.101.0/24…ok.
+No source, escolha a lan criada (faixa da lan)
+Destination: all 
+Service:all
+Nat:on,use outgoing interface address 
+Log Allowed Traffic: all session ok
+
+Configuração para performance SLAs (monitorar ping)
+Network, SD-WAN, performance SLAs, Name:(google_dns,),...server:8.8.8.8, Participants: Specify:claro(port3) SLA target….ok.
+
+Para incluir uma porta no SD-WAN, e na regra SLA
+Network, SD-WAN, New SD-WAN Member,interface:vivo, SD-WAN Zone:
+virtual-wan-link, Gateway:101.101.101.5(Gateway da )vivo, ….. ok
+
+Network: SD-WAN, Edit performance SLA, Participants, Specify,+, (vivo(port2)
+
+Priority rules (atua depois do tráfico permitido por regras)
+Network, SD-WAN, SD-WAN Rules,create new, Name (Regra_default).... Source Address:faixa da lan, Destination, address: (all) protocol number: (Any)...Select a strategy…(best Quality).. interface preference: claro (port3), vivo(port2)..Zone preference (Google_dns) ok
+
+Criar zonas ( muito usada para comunicação entre VLans) interfaces,
+
+
+
+
+
+
+saber o ip 
+get system interface physical
+Ip padrão fortinet  (vem na lan configurado de fábrica)
+show full-configuration
+config system interface 
+sh system int port2 (vê as configurações) 
+execute ping 
+execute shutdown
+config system dns    show
+get system arp
+next (voltar para o menu anterior)
+
+adicionar o ip 
+config sys int
+edit port2
+set ip xxxx xxxx
+end
+
+Habilitar portas 
+config sys int
+edit port2
+set allowaccess https http ping
+end
+
+Amarrar ou bloquear ip pelo mac 
+Interface>ip address assigment rules> reserve ou block> ok
+
+Adicionar ip 
+Interface ( insira o parâmetros desejado)
+Para adquirir ip PPPoE (usuário e senha fornecido pela operadora)é necessário um procedimento via cli
+config sys int
+edit port2
+set mode PPPoE
+end
+execute factoryreset
+
+Configurar DNS
+network>Dns> * pode usar os dns padrões da fortinet ou o da google* para não usar o ip padrão vá em interfaces>edit>Override internal DNS desmarque essa opção.coloque os dns que você desejar desative a placa de rede e ative as conexôes.
+
+há possibiliade de colocar o fortigate para resolver dns pelo nome (dns server (muito usado para activydirectore e redes pequenas))>system> Feature Visibility>DNS database on. vá para interface>dns servers>dns data base(para criar uma base de dados)>create new>New dns zone insira um nome em domain name, hostname of primary DNS. >dns entries> create new>type A>hostname insira um nome>e ip do gateway da rede e ok
+
+na mesma interface crie um serviço de dns create new>selecione a interface que vai fornecer este ip>pode deixar em recursive.
+agora faça com com que as máquinas apontem as requisições para o Firewall >Interface> edit lan desejada>dhcp server>same as interface ip>ok
+>ok
+
+Criar um registro (dns server) dns server>dns data base>seleciona ou edit uma já criada ou crie>
+
+Backup
+status> clique no usuário(canto direito da tela)>configuração> clique em backup> escollha o formato desejado e ok.
+Restore>status>usuário>configuração>restore>formato do arquivo>upload>selecione o arquivo e ok.
+
+Configuração para salvar alterações 
+status>configuração>revision>save changes
+para baixar selecione>details download configuration 
+para reverter é só selecionar e clicar em revert(isso pode ocupar memória)
+
+para vê as diferenças entre as configurações selecione as listas do backup 
+marque segurando CTRL e clique em diff, em vermelho aparecerá as diferenças das configurações.
+
+Vlan
+Network>Interface>nome (insira o nome)>type>VLAN>VLAN protocol>802.1Q>interface(porta)>VlanID>atribua ip e máscara>acesso administrativo selecionar o que vc desejar.ok
+
+Para licenciar o fortinet
+Ip da lan no navegador digite usuário e senha>evaluation license> login e senha do fort cloud. *só pode ser usado uma vez, não dá para vários fortinet, é necessário outro email.
+
+Saber os recursos da licensa
+system>fort guard>fort gate vm license
+
+para remover a licensa vá ao site forticloud>asset management.
+
+Para configurar a lan
+Network>interface>selecione a interface>edit>nomeie (alias)>role coloque lan(caso for usar para isso)>addressing mode, preencha conforme a necessidade>administrative access(necessário)> ok
+
+Para configurar a wan similar a lan
+para segurança desativar todas as opções do administrative Access, ou deixar apenas o necessário.
+
+Configurar usuário
+system>administrator>create ou edit>local user configure conforme a necessidade.> para permitir hosts por IP use( restrict login to trusted hosts e coloque o ip que terá apermissão)ok 
+
+DHCP
+network>interfaces>lan>edit>ative o dhcp server, escolha a faixa , gateway>ok,ok
+
+Políticas de firewall (implicit deny, regra padrão que nega tudo) ou seja, não tem acesso a net. Para ter acesso a net deve ser aplicar a seguinte configuração.
+policy & objects>firewall Policy>
+para criar uma nova regra
+pollicy & objects>firewall Policy>create new policy>insira um nome> incoming interface (lan)>outgoing interface (wan)>source>select entries(objetos,regras etc)geralmente escolhe-se all>destination(mesma lógica)>service (mesma lógica)>log allowed traffic (all session) ok
+
+liberarar acesso http e htpps
+Policy & objects>Firewall Policy>create new policy>insira um nome>incoming interface>outgoing interface>source>select entries all>destination all ou internet service escolha um serviço da lista>service escolha http e https e clique>mantenhas os outros padrões e ok.
+
+Configurar para exibir login como página web(captive portal)
+network>interfaces>interface lan edit>security mode habilite>local>restricted to group>ok
+user authentication>user definition>escolha o grupo que vc achar viável>edit e ok.
+
+Configurar certificado no fortigate
+system>certificate>(haverá alguns certificados configurados de fábrica) para criar ou importar selecione Create/import
+
+Certificado SSL
+Por padrão o forigate consegue enxergar o tráfego criptografado, Hackers utilizam criptografia para evitar bloqueios ne rede.
+
+Para importar certificado Sysrem>certificates>Download>baixe a CA para enviar para os clientes da empresa. A distribuição pode dos certificados pode ser didtribuidas pelo AD.
+
+Criar perfil de segurança 
+Observe o que há de suporte. System, fortiguard, fortiguard Distribution Network> fortiguard updates. ok
+
+ Para configurar antivirús, security profile, Antivirus,create new, nomeie, (Inspect Protocol) selecione os protocolos que vc deseje inspecionar, (http,ftp. pop3, etc), após selecionado o que você desejar, selecione se você que bloquear ou monitorar,( AntiVírus scan  Block/Monitor). Outros parametros. será conforme a necessidade e ok
+Agora habilite esse perfil na policy & objects, Firewall Policy>escolha um perfil, edit, em security profile, selecione antivírus, e dentro do AV selecione o perfil criado.ok. agora o tudo que passar nesta interface perfil será inspecionado.
+
+Há a possibilidade de criar filtros de bloqueio de site, ou usar as listas pré definida no fortigate, bem como filtro por extensões de aquivos. 
+
+Configurando VDOM virtual domain ( segunda instância de firewall separada) há a possibilidade de transformar um firewall em vários pequenos firewalls virtuais independentes, porém vinculado há 2 dominios, 2 redes lans diferentes.
+Cada firewall com suas próprias interfaces, politicas, Vpns... 
+é necessário habilitar essa função na cli
+P_EDIFICA # config system global
+P_EDIFICA (global) # set vdom-mode multi-vdom
+P_EDIFICA (global) # end
+
+
+
+
+
+
+
+
+
+
+Comando	Descripción
+# show	Apresenta a configuração global
+# sh system interface	ver configuração da interface
+# diagnose hardware deviceinfo nic	ver informações do cartão
+# get system status	ver a versão do forti
+# sh firewall policy 6	ver regra número 6
+# sh router policy	ver política de rotas
+# diagnose system session list	ver lista das sessões
+# diagnose system session clear	limpa todas as xlate/traduções
+# diagnose ip arp list	ver tabela arp
+# get router info routing-table all	ver todas as rotas
+# diagnose system top	ver os processos de topo
+# diagnose system kill 9	matar um processo
+# diag test auth ldap	verificar se pode fazer login com um utilizador ldap
+
+# config system interface
+edit port1
+set ip 192.168.0.100 255.255.255.0
+append allowaccess http
+end	configurar interface de rede
+
+# config router static
+edit 1
+set device port1
+set gateway
+end	configurar rota
+
+# config system dns
+set primary set secondary
+end	configurar dns
+
+# execute ping 8.8.8.8	ping 8.8.8.8.8
+
+# config system ha
+set ha-eth-type 0003
+set group-id 140	criar um grupo na ha
+
+# get system ha status	ver o estado 
+# execute ha synchronize config	sincronizar ha
+# execute ha synchronize stop
+execute ha synchronize start	sincronizar ha
+# execute traceroute IP	traceroute a um ip
+# get system performance firewall statistics	Mostrar estatísticas de tráfego até ao momento:
+# get system performance status	Mostrar o estado da CPU e o tempo de ligação:
+# get system performance top	Mostrar el uso del CPU ordenado por los procesos de mayor peso  #execute log display 
+
+
+metasploittable   login:msfadmin
+                                 =password: msfadmin
+
+ifconfig (para saber o ip que a máquina pegou)
+teste usando o ping
+ctrl+z para parar o ping
+sudo reboot (para reiniciar) 
+
