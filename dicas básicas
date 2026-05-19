@@ -1,27 +1,21 @@
 # Fortinet
 Tutoriais relacionado a fortinet
-execute factoryreset
+execute factoryreset  #resetar para os padrões de fábrica
 admin sem senha
 
 Port1(lan) ambiente virtual sempre configurar na port1
-
 Para configurar a lan
-Network>interface>selecione a interface>edit>Name:port1, Alias:lan>Role:lan(caso for usar para isso)>addressing mode:manual:IP:192.168.101.254/24>administrative access(https,http,ssh,ping,FMG-Access)> DHCP server:192.168.101.10- 192.168.101.50 (para o firewall isso pode ser custoso em redes grandes)
-netmask: 255.255.255.0 Gateway:same as interface IP DNS server: Specify:8.8.8.8 de um AD 
-Ok
-
-
+Network>interface>selecione a interface>edit>Name:port1, Alias:lan>Role:lan(caso for usar para isso)>addressing 
+mode:manual:IP:192.168.101.254/24>administrative access(https,http,ssh,ping,FMG-Access)> 
+DHCP server:192.168.101.10- 192.168.101.50 (para o firewall isso pode ser custoso em redes grandes)
+netmask: 255.255.255.0 Gateway:same as interface IP DNS server: Specify:8.8.8.8 de um AD Ok
 
 Port2(Wan vivo)
-Network,interfaces,port2,aliás(VIVO)
-Role:WAN, Address, address mode manual:101.101.101.6/30 ok
+Network,interfaces,port2,aliás(VIVO) Role:WAN, Address, address mode manual:101.101.101.6/30 ok
 
-
-
-Port3(WAN claro)Name:port3, Alias:claro, Role:WAN, Estimated Bandwidth: coloque o upstream/downstream do link. Address, Manual:100.100.100.6/30, Administrativo access:ping ok
+Port3(WAN claro)Name:port3, Alias:claro, Role:WAN, Estimated Bandwidth: coloque o upstream/downstream do link. 
+Address, Manual:100.100.100.6/30, Administrativo access:ping ok
  
-
-
 Port4(gerência) config sys int
 edit port4
 set ip 192.168.250.50/24
@@ -32,7 +26,6 @@ config sys int
 edit port4
 set allowaccess https http ping ssh
 end
-
 Digite o IP no navegador,em alguns casos a porta também para abrir a Gui da forti IOS
 
 Configurar rotas
@@ -71,34 +64,28 @@ virtual-wan-link, Gateway:101.101.101.5(Gateway da )vivo, ….. ok
 Network: SD-WAN, Edit performance SLA, Participants, Specify,+, (vivo(port2)
 
 Priority rules (atua depois do tráfico permitido por regras)
-Network, SD-WAN, SD-WAN Rules,create new, Name (Regra_default).... Source Address:faixa da lan, Destination, address: (all) protocol number: (Any)...Select a strategy…(best Quality).. interface preference: claro (port3), vivo(port2)..Zone preference (Google_dns) ok
+Network, SD-WAN, SD-WAN Rules,create new, Name (Regra_default).... Source Address:faixa da lan, Destination, address: (all) 
+protocol number: (Any)...Select a strategy…(best Quality).. interface preference: claro (port3), vivo(port2)..Zone preference (Google_dns) ok
 
 Criar zonas ( muito usada para comunicação entre VLans) interfaces,
 
-
-
-
-
-
-saber o ip 
-get system interface physical
-Ip padrão fortinet  (vem na lan configurado de fábrica)
+system interface physical  #saber o ip 
+Ip padrão fortinet vem na lan configurado de fábrica
 show full-configuration
 config system interface 
-sh system int port2 (vê as configurações) 
+sh system int port2 #vê as configurações
 execute ping 
 execute shutdown
 config system dns    show
 get system arp
-next (voltar para o menu anterior)
+next #voltar para o menu anterior
 
-adicionar o ip 
-config sys int
+config sys int #adicionar o ip
 edit port2
 set ip xxxx xxxx
 end
 
-Habilitar portas 
+#Habilitar portas 
 config sys int
 edit port2
 set allowaccess https http ping
@@ -117,13 +104,17 @@ end
 execute factoryreset
 
 Configurar DNS
-network>Dns> * pode usar os dns padrões da fortinet ou o da google* para não usar o ip padrão vá em interfaces>edit>Override internal DNS desmarque essa opção.coloque os dns que você desejar desative a placa de rede e ative as conexôes.
+network>Dns>  (pode usar os dns padrões da fortinet ou o da google) para não usar o ip padrão vá em interfaces>edit>Override internal DNS desmarque essa opção.
+coloque os dns que você desejar desative a placa de rede e ative as conexôes.
 
-há possibiliade de colocar o fortigate para resolver dns pelo nome (dns server (muito usado para activydirectore e redes pequenas))>system> Feature Visibility>DNS database on. vá para interface>dns servers>dns data base(para criar uma base de dados)>create new>New dns zone insira um nome em domain name, hostname of primary DNS. >dns entries> create new>type A>hostname insira um nome>e ip do gateway da rede e ok
+há possibiliade de colocar o fortigate para resolver dns pelo nome (dns server (muito usado para activydirectore e redes pequenas))
+>system> Feature Visibility>DNS database on. vá para interface>dns servers>dns data base(para criar uma base de dados)
+>create new>New dns zone insira um nome em domain name, hostname of primary DNS. 
+>dns entries> create new>type A>hostname insira um nome>e ip do gateway da rede e ok
 
 na mesma interface crie um serviço de dns create new>selecione a interface que vai fornecer este ip>pode deixar em recursive.
-agora faça com com que as máquinas apontem as requisições para o Firewall >Interface> edit lan desejada>dhcp server>same as interface ip>ok
->ok
+agora faça com com que as máquinas apontem as requisições para o Firewall >Interface> 
+edit lan desejada>dhcp server>same as interface ip>ok>ok
 
 Criar um registro (dns server) dns server>dns data base>seleciona ou edit uma já criada ou crie>
 
@@ -140,18 +131,20 @@ para vê as diferenças entre as configurações selecione as listas do backup
 marque segurando CTRL e clique em diff, em vermelho aparecerá as diferenças das configurações.
 
 Vlan
-Network>Interface>nome (insira o nome)>type>VLAN>VLAN protocol>802.1Q>interface(porta)>VlanID>atribua ip e máscara>acesso administrativo selecionar o que vc desejar.ok
+Network>Interface>nome (insira o nome)>type>VLAN>VLAN protocol>802.1Q>interface(porta)
+>VlanID>atribua ip e máscara>acesso administrativo selecionar o que vc desejar.ok
 
 Para licenciar o fortinet
-Ip da lan no navegador digite usuário e senha>evaluation license> login e senha do fort cloud. *só pode ser usado uma vez, não dá para vários fortinet, é necessário outro email.
+Ip da lan no navegador digite usuário e senha>evaluation license> login e senha do fort cloud. só pode ser usado uma vez, 
+não dá para vários fortinet, é necessário outro email.
 
 Saber os recursos da licensa
 system>fort guard>fort gate vm license
-
 para remover a licensa vá ao site forticloud>asset management.
 
 Para configurar a lan
-Network>interface>selecione a interface>edit>nomeie (alias)>role coloque lan(caso for usar para isso)>addressing mode, preencha conforme a necessidade>administrative access(necessário)> ok
+Network>interface>selecione a interface>edit>nomeie (alias)>role coloque lan(caso for usar para isso)>addressing mode, 
+preencha conforme a necessidade>administrative access(necessário)> ok
 
 Para configurar a wan similar a lan
 para segurança desativar todas as opções do administrative Access, ou deixar apenas o necessário.
