@@ -155,13 +155,18 @@ system>administrator>create ou edit>local user configure conforme a necessidade.
 DHCP
 network>interfaces>lan>edit>ative o dhcp server, escolha a faixa , gateway>ok,ok
 
-Políticas de firewall (implicit deny, regra padrão que nega tudo) ou seja, não tem acesso a net. Para ter acesso a net deve ser aplicar a seguinte configuração.
+Políticas de firewall (implicit deny, regra padrão que nega tudo) ou seja, não tem acesso a net. 
+Para ter acesso a net deve ser aplicar a seguinte configuração.
 policy & objects>firewall Policy>
 para criar uma nova regra
-pollicy & objects>firewall Policy>create new policy>insira um nome> incoming interface (lan)>outgoing interface (wan)>source>select entries(objetos,regras etc)geralmente escolhe-se all>destination(mesma lógica)>service (mesma lógica)>log allowed traffic (all session) ok
+pollicy & objects>firewall Policy>create new policy>insira um nome> incoming interface (lan)>outgoing interface 
+(wan)>source>select entries(objetos,regras etc)geralmente escolhe-se all>destination(mesma lógica)>service 
+(mesma lógica)>log allowed traffic (all session) ok
 
 liberarar acesso http e htpps
-Policy & objects>Firewall Policy>create new policy>insira um nome>incoming interface>outgoing interface>source>select entries all>destination all ou internet service escolha um serviço da lista>service escolha http e https e clique>mantenhas os outros padrões e ok.
+Policy & objects>Firewall Policy>create new policy>insira um nome>incoming interface>outgoing interface>source
+>select entries all>destination all ou internet service escolha um serviço da lista>service escolha http e https e clique
+>mantenhas os outros padrões e ok.
 
 Configurar para exibir login como página web(captive portal)
 network>interfaces>interface lan edit>security mode habilite>local>restricted to group>ok
@@ -173,46 +178,41 @@ system>certificate>(haverá alguns certificados configurados de fábrica) para c
 Certificado SSL
 Por padrão o forigate consegue enxergar o tráfego criptografado, Hackers utilizam criptografia para evitar bloqueios ne rede.
 
-Para importar certificado Sysrem>certificates>Download>baixe a CA para enviar para os clientes da empresa. A distribuição pode dos certificados pode ser didtribuidas pelo AD.
+Para importar certificado System>certificates>Download>baixe a CA para enviar para os clientes da empresa. 
+A distribuição pode dos certificados pode ser didtribuidas pelo AD.
 
 Criar perfil de segurança 
 Observe o que há de suporte. System, fortiguard, fortiguard Distribution Network> fortiguard updates. ok
 
- Para configurar antivirús, security profile, Antivirus,create new, nomeie, (Inspect Protocol) selecione os protocolos que vc deseje inspecionar, (http,ftp. pop3, etc), após selecionado o que você desejar, selecione se você que bloquear ou monitorar,( AntiVírus scan  Block/Monitor). Outros parametros. será conforme a necessidade e ok
-Agora habilite esse perfil na policy & objects, Firewall Policy>escolha um perfil, edit, em security profile, selecione antivírus, e dentro do AV selecione o perfil criado.ok. agora o tudo que passar nesta interface perfil será inspecionado.
+ Para configurar antivirús, security profile, Antivirus,create new, nomeie, (Inspect Protocol) 
+selecione os protocolos que vc deseje inspecionar, (http,ftp. pop3, etc), após selecionado o que você desejar, 
+selecione se você que bloquear ou monitorar,( AntiVírus scan  Block/Monitor). Outros parametros. será conforme a necessidade e ok
+Agora habilite esse perfil na policy & objects, Firewall Policy>escolha um perfil, edit, em security profile, 
+selecione antivírus, e dentro do AV selecione o perfil criado.ok. agora o tudo que passar nesta interface perfil será inspecionado.
 
 Há a possibilidade de criar filtros de bloqueio de site, ou usar as listas pré definida no fortigate, bem como filtro por extensões de aquivos. 
 
-Configurando VDOM virtual domain ( segunda instância de firewall separada) há a possibilidade de transformar um firewall em vários pequenos firewalls virtuais independentes, porém vinculado há 2 dominios, 2 redes lans diferentes.
-Cada firewall com suas próprias interfaces, politicas, Vpns... 
-é necessário habilitar essa função na cli
-P_EDIFICA # config system global
-P_EDIFICA (global) # set vdom-mode multi-vdom
-P_EDIFICA (global) # end
+Configurando VDOM virtual domain ( segunda instância de firewall separada) há a possibilidade de transformar um firewall 
+em vários pequenos firewalls virtuais independentes, porém vinculado há 2 dominios, 2 redes lans diferentes.
+Cada firewall com suas próprias interfaces, politicas, Vpns... é necessário habilitar essa função na cli
+config system global
+set vdom-mode multi-vdom
+end
 
-
-
-
-
-
-
-
-
-
-Comando	Descripción
-# show	Apresenta a configuração global
-# sh system interface	ver configuração da interface
-# diagnose hardware deviceinfo nic	ver informações do cartão
-# get system status	ver a versão do forti
-# sh firewall policy 6	ver regra número 6
-# sh router policy	ver política de rotas
-# diagnose system session list	ver lista das sessões
-# diagnose system session clear	limpa todas as xlate/traduções
-# diagnose ip arp list	ver tabela arp
-# get router info routing-table all	ver todas as rotas
-# diagnose system top	ver os processos de topo
-# diagnose system kill 9	matar um processo
-# diag test auth ldap	verificar se pode fazer login com um utilizador ldap
+Comando	Descrições
+show    	#Apresenta a configuração global
+sh system interface	   #ver configuração da interface
+diagnose hardware deviceinfo nic	    #ver informações do cartão
+get system status	   #ver a versão do forti
+sh firewall policy 6	  #ver regra número 6
+sh router policy	#    ver política de rotas
+diagnose system session list	  #ver lista das sessões
+diagnose system session clear	  #limpa todas as xlate/traduções
+diagnose ip arp list	  #ver tabela arp
+get router info routing-table all	   #ver todas as rotas
+diagnose system top	  #ver os processos de topo
+diagnose system kill 9	    #matar um processo
+diag test auth ldap	   #verificar se pode fazer login com um utilizador ldap
 
 # config system interface
 edit port1
@@ -234,16 +234,17 @@ end	configurar dns
 
 # config system ha
 set ha-eth-type 0003
-set group-id 140	criar um grupo na ha
+set group-id 140	     #criar um grupo na ha
 
-# get system ha status	ver o estado 
-# execute ha synchronize config	sincronizar ha
-# execute ha synchronize stop
-execute ha synchronize start	sincronizar ha
-# execute traceroute IP	traceroute a um ip
-# get system performance firewall statistics	Mostrar estatísticas de tráfego até ao momento:
-# get system performance status	Mostrar o estado da CPU e o tempo de ligação:
-# get system performance top	Mostrar el uso del CPU ordenado por los procesos de mayor peso  #execute log display 
+get system ha   #status	ver o estado 
+execute ha synchronize config	    #sincronizar ha
+execute ha synchronize stop
+execute ha synchronize start	  #sincronizar ha
+execute traceroute x.x.x.x	     #traceroute a um ip
+get system performance firewall statistics  #	Mostrar estatísticas de tráfego até ao momento:
+get system performance status	  #Mostrar o estado da CPU e o tempo de ligação:
+get system performance top	 #Mostrar o uso da CPU ordenado por processos com maus custo  
+execute log display 
 
 
 metasploittable   login:msfadmin
