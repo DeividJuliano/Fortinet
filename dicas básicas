@@ -168,6 +168,16 @@ Policy & objects>Firewall Policy>create new policy>insira um nome>incoming inter
 >select entries all>destination all ou internet service escolha um serviço da lista>service escolha http e https e clique
 >mantenhas os outros padrões e ok.
 
+Criar regras de Firewall baseado em endereço
+Policy & Objects, Adresses, New Address. Prencha conforme a nessecidade, Nome, Type...........Pode ser criado de 
+forma direta em Source/Destination, Select Entries, Address, Create.  Regras e firewall pode ser para subnet inteira /23, /30 ou 
+para um host que seria /32   .... Name: Servidor_Web   Type: Subnet  IP/Netmask: 172.16.200.0/23
+
+Pode também ser usado o ISDB Intenet Services Database, que são conjuntos de IPs e domínios conhecidos (Microsoft, AWS, Adobe), 
+para não precisar fazer na mão Network, Internet Service Database.  Escolha o serviço desejado. 
+Há a possibilidade de usar um Perfil de segurança dentro de um tráfego em Security Profiles, em que será possível usar
+AntiVirus, IPS, DNS Filter, Web Filter, File Filter.
+
 Configurar para exibir login como página web(captive portal)
 network>interfaces>interface lan edit>security mode habilite>local>restricted to group>ok
 user authentication>user definition>escolha o grupo que vc achar viável>edit e ok.
