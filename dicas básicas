@@ -209,6 +209,15 @@ config system global
 set vdom-mode multi-vdom
 end
 
+
+LACP (integração com cisco L3)
+
+Logue no fortigate use o comando sh system interface para saber o ip da interface de gerencia (geralmente port1), neste cenário será usado 
+a porta 2,3. Vá em Network, Interfaces, New interface, Name:(nome que sinalize) Type: 802.3ad Aggregate (aqui já define o protocolo LACP) 
+em Inteface Members: port2 port3 (essas 2 portas serão 1 link) IP/Netmask: ip e mascara, marque o ping, habilite o LLDP R/X (descorberta de vizinhos)
+habilite o DHCP e ok
+
+
 Comando	Descrições
 show    	#Apresenta a configuração global
 sh system interface	   #ver configuração da interface
