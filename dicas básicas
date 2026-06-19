@@ -3,6 +3,12 @@ Tutoriais relacionado a fortinet
 execute factoryreset  #resetar para os padrões de fábrica
 admin sem senha
 
+execute factoryreset2  #Resetar sem perder a gerência, pois mantêm as configurações do system global,vdom, interfaces
+roteamento estático, vpn, regras serão excluídas.
+
+
+
+
 Port1(lan) ambiente virtual sempre configurar na port1
 Para configurar a lan
 Network>interface>selecione a interface>edit>Name:port1, Alias:lan>Role:lan(caso for usar para isso)>addressing 
@@ -214,8 +220,21 @@ LACP (integração com cisco L3)
 
 Logue no fortigate use o comando sh system interface para saber o ip da interface de gerencia (geralmente port1), neste cenário será usado 
 a porta 2,3. Vá em Network, Interfaces, New interface, Name:(nome que sinalize) Type: 802.3ad Aggregate (aqui já define o protocolo LACP) 
-em Inteface Members: port2 port3 (essas 2 portas serão 1 link) IP/Netmask: ip e mascara, marque o ping, habilite o LLDP R/X (descorberta de vizinhos)
-habilite o DHCP e ok
+em Interface Members: port2 port3 (essas 2 portas serão 1 link) IP/Netmask: ip e mascara, marque o ping, habilite o LLDP R/X (descorberta de vizinhos)
+habilite o DHCP e ok (agora faça a configuração no switch cisco)
+
+en
+conf t
+hostname SW_core
+interface range gigabitEhernet 0/0-1
+channel-group 10 mode active
+exit
+interface port-channel 10
+switchport mode access
+end
+
+Para validar as configurações   show etherchannel summary  .Para validar no fortigate,  diagnose netlink aggregate name LAG_LAN
+Para validar o modo  show full-configuration | grep mode
 
 
 Comando	Descrições
