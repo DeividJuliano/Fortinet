@@ -7,8 +7,6 @@ execute factoryreset2  #Resetar sem perder a gerência, pois mantêm as configur
 roteamento estático, vpn, regras serão excluídas.
 
 
-
-
 Port1(lan) ambiente virtual sempre configurar na port1
 Para configurar a lan
 Network>interface>selecione a interface>edit>Name:port1, Alias:lan>Role:lan(caso for usar para isso)>addressing 
@@ -235,6 +233,12 @@ end
 
 Para validar as configurações   show etherchannel summary  .Para validar no fortigate,  diagnose netlink aggregate name LAG_LAN
 Para validar o modo  show full-configuration | grep mode
+
+VPN site-to-site Mikrotik e Fortigate (IPsec) 4:10
+As redes internas deverão se comunicar. Geralmente a matriz tem o Fortigate, e filiais Mikrotik
+fortigate port2 Lan:192.168.10.0/24     port1 Wan:100.64.0.0/30   rota dst x.x.20 gwt 100.64.0.1 port1 static ip
+Mikrotik ether2 Lan:192.168.20.0/24    ether1Wan:100.65.0.0/30
+
 
 
 Comando	Descrições
