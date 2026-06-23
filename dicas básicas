@@ -234,10 +234,19 @@ end
 Para validar as configurações   show etherchannel summary  .Para validar no fortigate,  diagnose netlink aggregate name LAG_LAN
 Para validar o modo  show full-configuration | grep mode
 
-VPN site-to-site Mikrotik e Fortigate (IPsec) 4:10
+VPN site-to-site Mikrotik e Fortigate (IPsec) (8:05)
 As redes internas deverão se comunicar. Geralmente a matriz tem o Fortigate, e filiais Mikrotik
 fortigate port2 Lan:192.168.10.0/24     port1 Wan:100.64.0.0/30   rota dst x.x.20 gwt 100.64.0.1 port1 static ip
 Mikrotik ether2 Lan:192.168.20.0/24    ether1Wan:100.65.0.0/30
+
+No Mikrotik
+Ip, Route, deverá iar no route list: Dst.Address:100.65.0.0/30 Gateway: ether1 reachable Pref.Source 100.65.0.1
+                                     Dst.Address:0.0.0.0/0     Gateway: 100.65.0.2 reachable ether1
+Caso esteja correto os ips, vá em IP, IPsec, Profiles, +, preencha conforme a necessidade o New IPsec Profile, Name:xxx
+Hash Algorithms: sha256, Encryption Algorithm: des, DH GRoup:modp2048, desmarque NAT Transversal.
+Vá em IPsec, Peers, +, New IPsec:Preencha conforme a necessidade, Name:xxxx, Address: 100.64.0.1(ip do fortigate)
+Port:500 (padrão do ipsec) Local Address: 100.65.0.1 Profile: selecione a vpn criada xxxx 
+Exchange Mode: IKE2 
 
 
 
