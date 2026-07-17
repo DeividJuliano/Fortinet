@@ -234,7 +234,7 @@ end
 Para validar as configurações   show etherchannel summary  .Para validar no fortigate,  diagnose netlink aggregate name LAG_LAN
 Para validar o modo  show full-configuration | grep mode
 
-VPN site-to-site Mikrotik e Fortigate (IPsec) (10;30)
+VPN site-to-site Mikrotik e Fortigate (IPsec) 
 As redes internas deverão se comunicar. Geralmente a matriz tem o Fortigate, e filiais Mikrotik
 fortigate port2 Lan:192.168.10.0/24     port1 Wan:100.64.0.0/30   rota dst x.x.20 gwt 100.64.0.1 port1 static ip
 Mikrotik ether2 Lan:192.168.20.0/24    ether1Wan:100.65.0.0/30
@@ -252,6 +252,9 @@ Peer: VPN-Peer    Auth.Method: pre shared Key  Secret:xxxxsenha   ok. Phase1 ago
 Em IPsec vá em Proposals, +, em new IPsec Proposal, Name:Phase2-VPN  Auth. Algorithms:sha256
 Encr. Algorithms:des   PFS Group:modp2048   e ok. Phase2 configurada. Para finalizar em IPsec vá em Policies, +
 Em New IPsec Policy, General: VPN-Peer   marque Tunnel, Src. Address:(ip privado que irão passar no tunel x.x.x.x/24)
+Dst.Address:(ip privado que irão passar no tunel x.x.x.x/24) vá Action em Proposal selecione Phase2-VPN,  ok e espere..
+depois vá em IPsec, Active Peers, veja se em State aparece established e o tempo em Uptime, no fortigate vá em Dashboard,
+IPsecMonitor, teste acessando.
 
 
 
