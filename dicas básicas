@@ -256,6 +256,15 @@ Dst.Address:(ip privado que irão passar no tunel x.x.x.x/24) vá Action em Prop
 depois vá em IPsec, Active Peers, veja se em State aparece established e o tempo em Uptime, no fortigate vá em Dashboard,
 IPsecMonitor, teste acessando.
 
+VPN Site-to-Site Fortigate
+
+#Conexão entre empresas em forma de túnel por dentro da internet de forma segura, criptografada.
+# Necessário Rotas, Regras de firewall, vpn - site-to-to-site (interface_vpn) phase1 Phase2.
+# Será configurada um tipo de VPN que poderá receber várias conexões (matriz) DialupUser várias 
+# filiais conversando com a matriz
+Acesse o fortigate vá em IPsec Tunnels, preencha os campos, Comments:xxxx Remote Gateway: Dialup User
+# (8:11)
+
 
 
 
