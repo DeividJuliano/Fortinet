@@ -262,8 +262,17 @@ VPN Site-to-Site Fortigate
 # Necessário Rotas, Regras de firewall, vpn - site-to-to-site (interface_vpn) phase1 Phase2.
 # Será configurada um tipo de VPN que poderá receber várias conexões (matriz) DialupUser várias 
 # filiais conversando com a matriz
-Acesse o fortigate vá em IPsec Tunnels, preencha os campos, Comments:xxxx Remote Gateway: Dialup User
-# (8:11)
+Acesse o fortigate vá em IPsec Tunnels.
+# Network: preencha os campos Name, Comments:xxxx Remote Gateway: Dialup User
+# Interface: WAN   Nat Transversal: Enable   Dead Peer Detection: On Idle   DPD: retry count: 3
+# DPD retry intervarl: 60 demais configurações deixe padrão.
+# Authentiction    Method :Pre-shared Key Pre-shared Key: xxxxx (senha compartilhada)  
+# Ike   Version:1  Mode: aggressive  Peer Options
+# Accepet Types: Any peer ID
+# Phase 1 Proposal  Encryption:AES192  authentication: SHA256  Diffe-Hellman: marque 14, 5
+#Key Lifetime (seconds) :86400 restante LocalID:(em branco)
+#XAUTH (comunicação com o usuário) Type: Disabled.
+#Phase 2 selectors:   (12:15
 
 
 
