@@ -272,7 +272,17 @@ Acesse o fortigate vá em IPsec Tunnels.
 # Phase 1 Proposal  Encryption:AES192  authentication: SHA256  Diffe-Hellman: marque 14, 5
 #Key Lifetime (seconds) :86400 restante LocalID:(em branco)
 #XAUTH (comunicação com o usuário) Type: Disabled.
-#Phase 2 selectors:   (12:15
+#Phase 2 selectors:   Name: xxxx Local Address: 0.0.0.0/0.0.0.0 
+#Remote Address: 0.0.0.0/0.0.0.0  Edit Phase2  Name:xxxx Comments: xxxx
+#Local Address:Subnet  0.0.0.0/0.0.0.0  Remote address:Subnet 0.0.0.0/0.0.0.0
+#Phase2Proposal  Encryption: AES192  Authentication :SHA256
+#Enable Replay Detection marque  Enable Perfect Forward Secrecy (PFS)
+# Diffe-Hellman Group: 5, 2  marque all em Local Port, Remote Port, Protocol
+# marque Autokey Keep Alive  Key Liftime: Seconds  Seconds:43200  ok
+#Volte para Network, Static Routes, clique em uma da rede em que terá rota estática
+#Edit Static Route, Destination: Subnet: x.x.x.x/x.x.x.x( ip onde a rota será apontada)
+#Interface: (vpn) Administrative Distance: 10 Comments: xxxxx Status: Enable ok
+#Volte para Interfaces e verás a vpn vinculada a interface Fisica WAN  (16:10)
 
 
 
