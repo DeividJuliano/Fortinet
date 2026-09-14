@@ -304,7 +304,9 @@ Vá na CLI console e teste o ping para onde você quer alcançar
 execute ping x.x.x.x    #teste de ping
 get router info routing-table details x.x.x.x # informações de rota vinculada a esse ip
 get router info routing-table all # todas as informações de rota
-execute ping-options source x.x.x.x   #teste de ping específico    (23:37)
+execute ping-options source x.x.x.x   #teste de ping específico   
+execute ping-options repeat-count 1000 (ping extendido, use o ping normal depois)
+
 
 
 
