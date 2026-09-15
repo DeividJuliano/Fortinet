@@ -313,7 +313,8 @@ diagnose hardware deviceinfo nic internal7 # mostra as configurações da interc
 get system interface physical # informa todas as interfaces físicas
 edit internal4   #vái para a edição da interface internal4 
 diagnose sys link-monitor interface internal4 # mostra o que ocorreu na interface internal4 é 
-necessário ter a modo monitoramento ativado.(11:45)
+necessário ter a modo monitoramento ativado.
+show system dhcp server  #mostra as configurações dhcp das interfaces (14:20)
 
 
 
