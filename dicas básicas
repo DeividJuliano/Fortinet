@@ -314,7 +314,9 @@ get system interface physical # informa todas as interfaces físicas
 edit internal4   #vái para a edição da interface internal4 
 diagnose sys link-monitor interface internal4 # mostra o que ocorreu na interface internal4 é 
 necessário ter a modo monitoramento ativado.
-show system dhcp server  #mostra as configurações dhcp das interfaces (14:20)
+show system dhcp server  #mostra as configurações dhcp das interfaces 
+config system dhcp server   #modo de configuração do dhcp para configurar de o 
+comando    edit 4  então será possivel editar o dhcp (17:00)
 
 
 
