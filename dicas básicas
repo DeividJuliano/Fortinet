@@ -285,7 +285,7 @@ Interface: (vpn) Administrative Distance: 10 Comments: xxxxx Status: Enable ok
 Volte para Interfaces e verás a vpn vinculada a interface Fisica WAN, clique na VPN
 Role: Undefine  Addresing mode  Ip:x.x.x.x  Netmask:x.x.x.x Remote Ipnetmask
 x.x.x.x x.x.x.x (esse será o gateway de comunicação segura entre as 2 vpn)
-Administrative Acces marque o Ping e ok (17:10)
+Administrative Acces marque o Ping e ok 
 
 Regra de Firewall
 Policy & Objects, Firewall Policy, digite VPN em pesquisar, selecine a vpn de saída
@@ -306,6 +306,13 @@ get router info routing-table details x.x.x.x # informações de rota vinculada 
 get router info routing-table all # todas as informações de rota
 execute ping-options source x.x.x.x   #teste de ping específico   
 execute ping-options repeat-count 1000 (ping extendido, use o ping normal depois)
+
+Troubleshotting no Fortigate
+show system interface	   #ver as configurações das interfaces
+diagnose hardware deviceinfo nic internal7 # mostra as configurações da intercace internal7
+get system interface physical # informa todas as interfaces físicas
+edit internal4   #vái para a edição da interface internal4
+
 
 
 
