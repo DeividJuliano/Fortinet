@@ -311,7 +311,7 @@ Troubleshotting no Fortigate
 show system interface	   #ver as configurações das interfaces
 diagnose hardware deviceinfo nic internal7 # mostra as configurações da intercace internal7
 get system interface physical # informa todas as interfaces físicas
-edit internal4   #vái para a edição da interface internal4
+edit internal4   #vái para a edição da interface internal4 (9:51)
 
 
 
