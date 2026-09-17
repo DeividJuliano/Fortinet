@@ -316,7 +316,11 @@ diagnose sys link-monitor interface internal4 # mostra o que ocorreu na interfac
 necessário ter a modo monitoramento ativado.
 show system dhcp server  #mostra as configurações dhcp das interfaces 
 config system dhcp server   #modo de configuração do dhcp para configurar de o 
-comando    edit 4  então será possivel editar o dhcp (17:00)
+comando    edit 4  então será possivel editar o dhcp 
+set start-ip 192.168.15.50   # comando para fornecer ip começãndo pelo 192.168.15.50
+set end-ip 192.168.15.79   # comando para finalizar a pool de ip no 192.168.15.79 
+next # avançar      end #sair salvando   abort # para abortar 
+config system global #saber as configurações globais  (19:00)
 
 
 
