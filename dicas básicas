@@ -320,7 +320,7 @@ comando    edit 4  então será possivel editar o dhcp
 set start-ip 192.168.15.50   # comando para fornecer ip começãndo pelo 192.168.15.50
 set end-ip 192.168.15.79   # comando para finalizar a pool de ip no 192.168.15.79 
 next # avançar      end #sair salvando   abort # para abortar 
-config system global #saber as configurações globais  (19:00)
+config system global #saber as configurações globais  (show)   (36:30)
 
 
 
@@ -333,17 +333,28 @@ config system global #saber as configurações globais  (19:00)
 Comando	Descrições
 show    	#Apresenta a configuração global
 sh system interface	   #ver configuração da interface
-diagnose hardware deviceinfo nic	    #ver informações do cartão
-get system status	   #ver a versão do forti
 sh firewall policy 6	  #ver regra número 6
 sh router policy	#    ver política de rotas
+show firewall policy  #mostra todas as regras
+get router info routing-table all	   #ver todas as rotas
+get system status	   #ver a versão do forti
+get user local   #mostrar usuários cadastrados localmente
+get vpn ssl monitor  #monitorar as conexões vpn 
+get vpn ipsec tunnel summary   #mostrar a conexões ipsec tunnel
+
+diagnose hardware deviceinfo nic	    #ver informações do cartão
 diagnose system session list	  #ver lista das sessões
 diagnose system session clear	  #limpa todas as xlate/traduções
 diagnose ip arp list	  #ver tabela arp
-get router info routing-table all	   #ver todas as rotas
+diagnose vpn ike gateway list  #mostra as listas de conexões vpn
+diagnose vpn tunnel list   #mostra a lista de vpn tunnels
+diagnose vpn ssl statistics   #mostra informações das vpn site to site clientes
 diagnose system top	  #ver os processos de topo
 diagnose system kill 9	    #matar um processo
 diag test auth ldap	   #verificar se pode fazer login com um utilizador ldap
+diagnose sniffer packet internal3  #capturar os pacotes da interface 3 ctrl c para parar
+diagnose sys sdwan health-check   # mostrar a performance SLA 
+set hostname xxxxxx   #atribuir um nome
 
 # config system interface
 edit port1
@@ -365,22 +376,34 @@ execute ping-options source x.x.x.x   #teste de ping específico
 set primary set secondary
 end	configurar dns
 
-# execute ping 8.8.8.8   	
-ping 8.8.8.8.8
+# execute ping 8.8.8.8   	ping 8.8.8.8
+execute ha synchronize config	    #sincronizar ha
+execute ha synchronize stop
+execute ha synchronize start	  #sincronizar ha
+execute traceroute x.x.x.x	     #traceroute a um ip
+execute log display
+execute ping-options source x.x.x.x   #teste de ping específico   
+execute ping-options repeat-count 1000 (ping extendido, use o ping normal depois)
+execute ping-options reset  # desfaz o ping extendido para as próximas solicitaçôes
+execute ping-options internal7   # ping para a interface 7
+execute ping-options source 192.168.212.11  #seleciona o ip 192.168.212.11 para
+ser o obleto de deste, após isso ping para outro host ou 8.8.8.8, ficará 192.168.212.11
+pingando para o 8.8.8.8 sem precisar entrar na interface. O mesmo pode ser feito com 
+o traceroute
+execute traceroute-options source 192.168.212.11  # seleciona o ip 192.168.212.11 
+execute traceroute  8.8.8.8  # pinga para o 8.8.8.8 pelo ip 192.168.212.11
 
 # config system ha
 set ha-eth-type 0003
 set group-id 140	     #criar um grupo na ha
 
 get system ha   #status	ver o estado 
-execute ha synchronize config	    #sincronizar ha
-execute ha synchronize stop
-execute ha synchronize start	  #sincronizar ha
-execute traceroute x.x.x.x	     #traceroute a um ip
+
 get system performance firewall statistics  #	Mostrar estatísticas de tráfego até ao momento:
 get system performance status	  #Mostrar o estado da CPU e o tempo de ligação:
 get system performance top	 #Mostrar o uso da CPU ordenado por processos com maus custo  
-execute log display 
+ 
+config user ldap  #mostra configurações ldap
 
 
 metasploittable   login:msfadmin
