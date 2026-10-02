@@ -320,7 +320,7 @@ comando    edit 4  então será possivel editar o dhcp
 set start-ip 192.168.15.50   # comando para fornecer ip começãndo pelo 192.168.15.50
 set end-ip 192.168.15.79   # comando para finalizar a pool de ip no 192.168.15.79 
 next # avançar      end #sair salvando   abort # para abortar 
-config system global #saber as configurações globais  (show)   (40:00)
+config system global #saber as configurações globais  (show)   (45:00)
 
 
 
@@ -336,14 +336,17 @@ sh system interface	   #ver configuração da interface
 sh firewall policy 6	  #ver regra número 6
 sh router policy	#    ver política de rotas
 show firewall policy  #mostra todas as regras
-show firewall policy ? #mostra as opções a seguir, guia de ajuda 
+show firewall policy ? #mostra os ID das policy criadas
 show firewall address list  #mostra os endereços de regras criado 
 show firewall address Lan_vendas  #mostra a regra para Lan_vendas que foi criada
 show firewall service category # Mostra as categorias de serviços
 show firewall service custom  # mostra os serviços que podem ser usados no firewall
 
 get router info routing-table all	   #ver todas as rotas
-get system status	   #ver a versão do forti
+get system status	   #ver a versão do fortigate
+get system performance status # monitorar a performance física do equipamento
+get system performance top  # monitorar a performance das tarafas 
+get system session list  # lista as seções estabelecidas no firewall
 get user local   #mostrar usuários cadastrados localmente
 get vpn ssl monitor  #monitorar as conexões vpn 
 get vpn ipsec tunnel summary   #mostrar a conexões ipsec tunnel
@@ -355,17 +358,18 @@ diagnose ip arp list	  #ver tabela arp
 diagnose vpn ike gateway list  #mostra as listas de conexões vpn
 diagnose vpn tunnel list   #mostra a lista de vpn tunnels
 diagnose vpn ssl statistics   #mostra informações das vpn site to site clientes
-diagnose system top	  #ver os processos de topo
+diagnose system top	  #ver os processos de topo (get system performance top)
 diagnose system kill 9	    #matar um processo
 diag test auth ldap	   #verificar se pode fazer login com um utilizador ldap
 diagnose sniffer packet internal3  #capturar os pacotes da interface 3 ctrl c para parar
 diagnose sys sdwan health-check   # mostrar a performance SLA 
-
+diagnose sys sdwan member  # mostrar quem está vinculado ao SD-WAN
 set hostname xxxxxx   #atribuir um nome
 set subnet 192.168.15/32   #cria uma subrede (end para salvar)
 
 config user ldap  #mostra configurações ldap
 config firewall addres # modo de configuração do firewall
+config system sdwan  # modo de configuração sdwan
 
 # config system interface
 edit port1
@@ -403,6 +407,7 @@ pingando para o 8.8.8.8 sem precisar entrar na interface. O mesmo pode ser feito
 o traceroute
 execute traceroute-options source 192.168.212.11  # seleciona o ip 192.168.212.11 
 execute traceroute  8.8.8.8  # pinga para o 8.8.8.8 pelo ip 192.168.212.11
+execute update-now # força a atualização da configuração feita
 
 # config system ha
 set ha-eth-type 0003
