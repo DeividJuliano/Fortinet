@@ -305,7 +305,7 @@ execute ping x.x.x.x    #teste de ping
 get router info routing-table details x.x.x.x # informações de rota vinculada a esse ip
 get router info routing-table all # todas as informações de rota
 execute ping-options source x.x.x.x   #teste de ping específico   
-execute ping-options repeat-count 1000 (ping extendido, use o ping normal depois)
+execute ping-options repeat-count 1000 #ping extendido de 1000 , use o ping normal depois
 
 Troubleshotting no Fortigate
 show system interface	   #ver as configurações das interfaces
@@ -320,7 +320,12 @@ comando    edit 4  então será possivel editar o dhcp
 set start-ip 192.168.15.50   # comando para fornecer ip começãndo pelo 192.168.15.50
 set end-ip 192.168.15.79   # comando para finalizar a pool de ip no 192.168.15.79 
 next # avançar      end #sair salvando   abort # para abortar 
-config system global #saber as configurações globais  (show)   (45:00)
+config system global #saber as configurações globais  (show)  (53:40)
+
+# exemplo de debug 
+diagnose debug reset
+diagnose debug enable
+diagnose debug flow filter clear 
 
 
 
@@ -332,17 +337,20 @@ config system global #saber as configurações globais  (show)   (45:00)
 
 Comando	Descrições
 show    	#Apresenta a configuração global
-sh system interface	   #ver configuração da interface
+sh system interface internal4  #ver configuração da interface 4
 sh firewall policy 6	  #ver regra número 6
 sh router policy	#    ver política de rotas
+show router static # informa as rotas estáticas
 show firewall policy  #mostra todas as regras
 show firewall policy ? #mostra os ID das policy criadas
 show firewall address list  #mostra os endereços de regras criado 
 show firewall address Lan_vendas  #mostra a regra para Lan_vendas que foi criada
 show firewall service category # Mostra as categorias de serviços
 show firewall service custom  # mostra os serviços que podem ser usados no firewall
+show full-configuration  # mostra a configuração completa
 
 get router info routing-table all	   #ver todas as rotas
+get router info routing-table details 192.168.10.10  #ver rota desse ip com detalhes
 get system status	   #ver a versão do fortigate
 get system performance status # monitorar a performance física do equipamento
 get system performance top  # monitorar a performance das tarafas 
@@ -350,6 +358,11 @@ get system session list  # lista as seções estabelecidas no firewall
 get user local   #mostrar usuários cadastrados localmente
 get vpn ssl monitor  #monitorar as conexões vpn 
 get vpn ipsec tunnel summary   #mostrar a conexões ipsec tunnel
+get system ha   #status	ver o estado 
+
+get system performance firewall statistics  #	Mostrar estatísticas de tráfego até ao momento:
+get system performance status	  #Mostrar o estado da CPU e o tempo de ligação:
+get system performance top	 #Mostrar o uso da CPU ordenado por processos com maus custo  
 
 diagnose hardware deviceinfo nic	    #ver informações do cartão
 diagnose system session list	  #ver lista das sessões
@@ -412,12 +425,9 @@ execute update-now # força a atualização da configuração feita
 # config system ha
 set ha-eth-type 0003
 set group-id 140	     #criar um grupo na ha
-
 get system ha   #status	ver o estado 
 
-get system performance firewall statistics  #	Mostrar estatísticas de tráfego até ao momento:
-get system performance status	  #Mostrar o estado da CPU e o tempo de ligação:
-get system performance top	 #Mostrar o uso da CPU ordenado por processos com maus custo  
+ 
  
 
 
