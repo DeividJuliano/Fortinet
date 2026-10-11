@@ -320,12 +320,21 @@ comando    edit 4  então será possivel editar o dhcp
 set start-ip 192.168.15.50   # comando para fornecer ip começãndo pelo 192.168.15.50
 set end-ip 192.168.15.79   # comando para finalizar a pool de ip no 192.168.15.79 
 next # avançar      end #sair salvando   abort # para abortar 
-config system global #saber as configurações globais  (show)  (53:40)
+config system global #saber as configurações globais  (show)  
 
 # exemplo de debug 
 diagnose debug reset
 diagnose debug enable
-diagnose debug flow filter clear 
+diagnose debug flow filter clear
+diagnose debug filter saddr 192.168.15 253
+diagnose debug filter daddr 8.8.8.8
+diagnose debug flow filter port
+diagnose debug flow show function-name enable
+diagnose debug flow trace start 1000
+
+# para parar o debug
+diagnose debug disable 
+
 
 
 
