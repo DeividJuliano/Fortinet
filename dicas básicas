@@ -135,8 +135,13 @@ para vê as diferenças entre as configurações selecione as listas do backup
 marque segurando CTRL e clique em diff, em vermelho aparecerá as diferenças das configurações.
 
 Vlan
-Network>Interface>nome (insira o nome)>type>VLAN>VLAN protocol>802.1Q>interface(porta)
->VlanID>atribua ip e máscara>acesso administrativo selecionar o que vc desejar.ok
+Network>Interface,>nome (insira o nome)>type>VLAN>VLAN protocol>802.1Q>interface(porta trunk)
+>VlanID>VRF>Role> Address: Addressing mode: escolha conforme a necessidade
+(essa interface será como um roteador)> acesso administrativo selecionar o que vc desejar.ok  (16:00)
+DHCP Server: Address range
+
+Network>Interface,>nome (vendas)>type>VLAN>VLAN protocol>802.1Q>interface(porta)
+>VlanID:100, VRF: xxxx, Role: LAN> Address:192.168.212.1/24 Addresssing mode: manual, acesso administrativo selecionar o que vc desejar.ok
 
 Para licenciar o fortinet
 Ip da lan no navegador digite usuário e senha>evaluation license> login e senha do fort cloud. só pode ser usado uma vez, 
