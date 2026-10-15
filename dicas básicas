@@ -137,11 +137,16 @@ marque segurando CTRL e clique em diff, em vermelho aparecerá as diferenças da
 Vlan
 Network>Interface,>nome (insira o nome)>type>VLAN>VLAN protocol>802.1Q>interface(porta trunk)
 >VlanID>VRF>Role> Address: Addressing mode: escolha conforme a necessidade
-(essa interface será como um roteador)> acesso administrativo selecionar o que vc desejar.ok  (16:00)
-DHCP Server: Address range
+(essa interface será como um roteador)> acesso administrativo selecionar o que vc desejar.ok  (20:00)
+DHCP Server: Address range 
 
 Network>Interface,>nome (vendas)>type>VLAN>VLAN protocol>802.1Q>interface(porta)
->VlanID:100, VRF: xxxx, Role: LAN> Address:192.168.212.1/24 Addresssing mode: manual, acesso administrativo selecionar o que vc desejar.ok
+>VlanID:100, VRF: xxxx, Role: LAN> Address:192.168.212.1/24 Addresssing mode: manual, 
+administrativo selecionar o que vc desejar porém é padrão liberar o ping e SNMP. com isso 
+já temos uma vlan (vendas vinculada a uma interface física). Para criar outra vlan basta fazer 
+o mesmo processo porém com outro nome e ip exemplo LAN> Address:192.168.213.1/24
+get system arp # mostra a tabela, use para validar a vlan
+show system interface vendas # informa as informações dessa interface 
 
 Para licenciar o fortinet
 Ip da lan no navegador digite usuário e senha>evaluation license> login e senha do fort cloud. só pode ser usado uma vez, 
@@ -373,7 +378,7 @@ get user local   #mostrar usuários cadastrados localmente
 get vpn ssl monitor  #monitorar as conexões vpn 
 get vpn ipsec tunnel summary   #mostrar a conexões ipsec tunnel
 get system ha   #status	ver o estado 
-
+get system arp # mostra a tabela arp
 get system performance firewall statistics  #	Mostrar estatísticas de tráfego até ao momento:
 get system performance status	  #Mostrar o estado da CPU e o tempo de ligação:
 get system performance top	 #Mostrar o uso da CPU ordenado por processos com maus custo  
