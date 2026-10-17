@@ -137,7 +137,7 @@ marque segurando CTRL e clique em diff, em vermelho aparecerá as diferenças da
 Vlan
 Network>Interface,>nome (insira o nome)>type>VLAN>VLAN protocol>802.1Q>interface(porta trunk)
 >VlanID>VRF>Role> Address: Addressing mode: escolha conforme a necessidade
-(essa interface será como um roteador)> acesso administrativo selecionar o que vc desejar.ok  (20:00)
+(essa interface será como um roteador)> acesso administrativo selecionar o que vc desejar.ok  
 DHCP Server: Address range 
 
 Network>Interface,>nome (vendas)>type>VLAN>VLAN protocol>802.1Q>interface(porta)
@@ -147,6 +147,22 @@ já temos uma vlan (vendas vinculada a uma interface física). Para criar outra 
 o mesmo processo porém com outro nome e ip exemplo LAN> Address:192.168.213.1/24
 get system arp # mostra a tabela, use para validar a vlan
 show system interface vendas # informa as informações dessa interface 
+
+Vlan por cli
+config system interface
+edit "VENDAS"
+set vdom "root"
+set ip 192.168.212.1 255.255.255.0
+set allowaccess ping snmp
+set alias "VLAN_200"
+set device-identification enable
+set role lan
+set interface "internal3"
+set vlanid 200
+next
+end
+(se for usar o note pad vá em Language e altere para S shell para facilitar a linha 
+de comando)
 
 Para licenciar o fortinet
 Ip da lan no navegador digite usuário e senha>evaluation license> login e senha do fort cloud. só pode ser usado uma vez, 
